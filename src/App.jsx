@@ -234,12 +234,19 @@ function App() {
               Récupérer
             </button>
           </div>
+          <div style={{marginTop:'0.5em',fontSize:'0.95em',color:'#aaa'}}>
+            Ce lien peut être utilisé jusqu'à <b>50 fois</b> maximum.<br />
+            Après 50 utilisations, la clé ne sera plus disponible.
+          </div>
           {fetchedKey && (
             <div className="key-display" style={{marginTop:'1em'}}>
               <strong>Clé récupérée (chiffrée) :</strong>
               <div className="key-box" style={{wordBreak:'break-all',fontSize:'1.1em',padding:'0.5em',margin:'0.5em 0',background:'#222',borderRadius:8}}>{fetchedKey}</div>
               <button style={{width:'100%',marginTop:8}} onClick={tryDecryptFetchedKey}>
                 Déchiffrer avec la phrase secrète
+              </button>
+              <button style={{width:'100%',marginTop:8}} onClick={()=>fetchKeyFromBackend()}>
+                Rafraîchir la clé
               </button>
             </div>
           )}

@@ -11,9 +11,10 @@ app.use(cors());
 app.use(express.json());
 
 // Stockage temporaire en mémoire
-// Chaque entrée : { cle, expire }
+// Chaque entrée : { cle, expire, count }
 const cles = {};
 const DUREE_EXPIRATION_MS = 10 * 60 * 1000; // 10 minutes
+const MAX_LECTURES = 50;
 
 // POST /api/cle : enregistre une clé et retourne un id
 app.post('/api/cle', (req, res) => {
@@ -22,22 +23,30 @@ app.post('/api/cle', (req, res) => {
   const id = uuidv4();
   cles[id] = {
     cle,
-    expire: Date.now() + DUREE_EXPIRATION_MS
+    expire: Date.now() + DUREE_EXPIRATION_MS,
+    count: 0
   };
   res.json({ id });
 });
 
-// GET /api/cle/:id : récupère une clé par id (une seule fois)
+// GET /api/cle/:id : récupère une clé par id (max 50 fois)
 app.get('/api/cle/:id', (req, res) => {
   const { id } = req.params;
   const entry = cles[id];
+  if (!entry) return res.status(404).json({ error: 'Clé non trouvée ou supprimée (max lectures atteintes)' });
   if (Date.now() > entry.expire) {
     delete cles[id];
     return res.status(410).json({ error: 'Clé expirée' });
   }
+  entry.count++;
+  console.log(`Lecture clé ${id} : count=${entry.count}`);
   const cle = entry.cle;
-  delete cles[id]; // Suppression après lecture (usage unique)
-  res.json({ cle });
+  const lecturesRestantes = MAX_LECTURES - entry.count;
+  if (entry.count >= MAX_LECTURES) {
+    delete cles[id];
+    console.log(`Clé ${id} supprimée après ${MAX_LECTURES} lectures.`);
+  }
+  res.json({ cle, lecturesRestantes: lecturesRestantes >= 0 ? lecturesRestantes : 0 });
 });
 
 // Nettoyage périodique des clés expirées
