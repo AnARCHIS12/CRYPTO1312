@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "CRYPTO1312",
+    "slug": "crypto1312-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#181818"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.crypto1312.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#181818"
+      },
+      "package": "com.crypto1312.app"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "description": "Application mobile pour l'échange sécurisé de clés/mots de passe via CRYPTO1312."
+  }
+}

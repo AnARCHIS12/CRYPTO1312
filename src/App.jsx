@@ -22,6 +22,9 @@ function generateSecret(length = 32) {
   return secret;
 }
 
+// Permet de configurer l'URL du backend facilement (Render, local, etc.)
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://crypto1312.onrender.com';
+
 function App() {
   const [myKey, setMyKey] = useState('');
   const [receivedKey, setReceivedKey] = useState('');
@@ -45,7 +48,7 @@ function App() {
     }
     try {
       const encrypted = CryptoJS.AES.encrypt(myKey, secret).toString();
-      const res = await fetch('http://localhost:3001/api/cle', {
+      const res = await fetch(`${BACKEND_URL}/api/cle`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cle: encrypted })
@@ -64,7 +67,7 @@ function App() {
     setFetchedKey('');
     const idToFetch = idParam || fetchId;
     try {
-      const res = await fetch(`http://localhost:3001/api/cle/${idToFetch}`);
+      const res = await fetch(`${BACKEND_URL}/api/cle/${idToFetch}`);
       const data = await res.json();
       if (res.ok) setFetchedKey(data.cle);
       else setApiError(data.error || 'Erreur inconnue');
