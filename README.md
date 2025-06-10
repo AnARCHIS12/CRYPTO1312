@@ -1,5 +1,9 @@
 # CRYPTO1312
 
+<p align="center">
+  <img src="src/assets/Ajouter un titre (8).png" alt="Logo CRYPTO1312" width="120" style="border-radius:16px;box-shadow:0 2px 12px #e33a;" />
+</p>
+
 [![GitHub Repo](https://img.shields.io/badge/GitHub-CRYPTO1312-181717?style=for-the-badge&logo=github)](https://github.com/AnARCHIS12/CRYPTO1312)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)
