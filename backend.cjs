@@ -52,7 +52,8 @@ setInterval(() => {
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, 'dist');
   app.use(express.static(buildPath));
-  app.get('/*', (req, res) => {
+  // Fallback : toutes les routes sauf /api/* servent index.html
+  app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
