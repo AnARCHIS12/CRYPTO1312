@@ -5,6 +5,12 @@ body {
   background: linear-gradient(135deg, #1a1a1a 60%, #c00 100%);
   min-height: 100vh;
 }
+body.light-theme {
+  background: linear-gradient(135deg, #fff 60%, #fbb 100%);
+}
+body.dark-theme {
+  background: linear-gradient(135deg, #1a1a1a 60%, #c00 100%);
+}
 
 #root {
   max-width: 1280px;
@@ -51,10 +57,16 @@ body {
   padding: 2.5rem 2rem;
   background: #181818ee;
   border-radius: 14px;
-  box-shadow: 0 4px 24px #0008;
+  box-shadow: 0 4px 24px #0008, 0 0 32px 8px #e33a, 0 0 64px 16px #fbb4;
   font-family: 'Oswald', 'Arial Black', Arial, sans-serif;
   border: 3px solid #c00;
+  animation: fadeInUp 0.5s cubic-bezier(.4,1.6,.4,1) both, containerPulse 3.5s cubic-bezier(.4,1.6,.4,1) infinite alternate;
 }
+body.light-theme .container {
+  background: #fff8;
+  border-color: #f55;
+}
+
 h1 {
   color: #fff;
   background: linear-gradient(90deg, #c00 60%, #111 100%);
@@ -67,6 +79,15 @@ h1 {
   border-bottom: 3px solid #c00;
   box-shadow: 0 2px 0 #c00;
 }
+body.light-theme h1 {
+  color: #c00;
+  background: linear-gradient(90deg, #fff 60%, #fbb 100%);
+  border-bottom: 3px solid #fbb;
+  box-shadow: 0 2px 0 #fbb;
+  -webkit-text-fill-color: #c00;
+  text-shadow: 0 2px 8px #fff8, 0 1px 0 #fbb;
+}
+
 .section {
   margin-bottom: 2.2rem;
 }
@@ -85,9 +106,20 @@ h1 {
   letter-spacing: 1px;
   border: 2px solid #fff2;
   box-shadow: 0 1px 4px #0006;
+  text-shadow: 0 0 8px #fff, 0 0 16px #e33, 0 0 32px #fbb8;
+  animation: neonText 2.5s ease-in-out infinite alternate;
 }
+body.light-theme .key-box {
+  background: #fff;
+  color: #c00;
+  border: 2px solid #c00;
+  box-shadow: 0 1px 8px #c00a;
+  text-shadow: 0 0 8px #fbb, 0 0 16px #fff8;
+}
+
 input[type="text"], input[type="password"] {
   width: 100%;
+  max-width: 100%;
   padding: 0.6rem;
   border-radius: 4px;
   border: 2px solid #c00;
@@ -96,11 +128,22 @@ input[type="text"], input[type="password"] {
   color: #fff;
   font-size: 1em;
   font-family: inherit;
+  box-sizing: border-box;
+  overflow-x: auto;
+  word-break: break-all;
+  white-space: pre-line;
+  transition: border 0.18s, box-shadow 0.18s;
 }
 input[type="text"]:focus, input[type="password"]:focus {
-  outline: 2px solid #c00;
-  background: #2a2a2a;
+  outline: none;
+  border: 2px solid #e33;
+  box-shadow: 0 2px 12px #e33a;
 }
+body.light-theme input[type="text"]:focus, body.light-theme input[type="password"]:focus {
+  border: 2px solid #f55;
+  box-shadow: 0 2px 12px #fbb8;
+}
+
 button {
   background: #c00;
   color: #fff;
@@ -113,10 +156,37 @@ button {
   text-transform: uppercase;
   letter-spacing: 1px;
   box-shadow: 0 2px 6px #0005;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.18s, box-shadow 0.18s;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
-button:hover {
-  background: #a00;
+button::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, #fff8 0%, #e33a 80%, transparent 100%);
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  transition: width 0.5s, height 0.5s, opacity 0.5s;
+  z-index: 0;
+}
+button:active::before {
+  width: 220%;
+  height: 220%;
+  opacity: 0;
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+}
+button:hover, button:focus {
+  background: linear-gradient(90deg, #e33 0%, #fbb 100%);
+  color: #fff;
+  box-shadow: 0 4px 32px #fbb8, 0 2px 8px #e33a;
+}
+body.light-theme button:hover, body.light-theme button:focus {
+  background: #e33;
 }
 label {
   color: #fff;
@@ -124,6 +194,310 @@ label {
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+body.light-theme label {
+  color: #222;
+}
 .read-the-docs {
   color: #c00;
+}
+
+/* Classe utilitaire pour labels importants */
+.label-strong {
+  font-size: 1.18em;
+  font-weight: 900;
+  background: linear-gradient(90deg, #c00 0%, #fff2 100%);
+  color: #fff;
+  padding: 0.32em 0.7em;
+  border-radius: 7px;
+  box-shadow: 0 2px 8px #0004, 0 1px 0 #c00;
+  margin-bottom: 0.5em;
+  letter-spacing: 1.2px;
+  text-shadow: 0 2px 8px #c003, 0 1px 0 #0008;
+  display: inline-block;
+}
+body.light-theme .label-strong {
+  background: linear-gradient(90deg, #fff 0%, #fbb 100%);
+  color: #c00;
+  box-shadow: 0 2px 8px #fbb8, 0 1px 0 #fff8;
+  text-shadow: 0 2px 8px #fff8, 0 1px 0 #fbb;
+}
+
+/* Animation d’apparition/disparition de la modale d’aide */
+.help-modal {
+  animation: fadeInScale 0.35s cubic-bezier(.4,1.6,.4,1) both;
+}
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Effet de verre et néon sur la modale d'aide */
+.help-modal > div {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: 0 8px 32px #e33b, 0 2px 8px #0005;
+  border: 2.5px solid #e33;
+  border-radius: 24px;
+  animation: glassPop 0.5s cubic-bezier(.4,1.6,.4,1) both;
+}
+@keyframes glassPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(40px);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Halo néon sur les boutons principaux */
+button, .container, .key-box {
+  position: relative;
+}
+button::after, .container::after, .key-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 24px 8px #e33a, 0 0 8px 2px #fff2;
+  opacity: 0.18;
+  z-index: 0;
+}
+button:active {
+  transform: scale(0.98) rotate(-1deg);
+  filter: brightness(1.1) saturate(1.2);
+}
+
+/* Effet arc-en-ciel sur le titre */
+h1 {
+  background: linear-gradient(90deg, #c00 0%, #e33 30%, #fbb 60%, #fff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowText 3s linear infinite alternate;
+}
+@keyframes rainbowText {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(30deg); }
+}
+
+/* Animation de surbrillance sur les sections lors du tutoriel */
+.section.tuto-highlight {
+  box-shadow: 0 0 0 4px #fbb8, 0 4px 32px #e33b;
+  animation: highlightPulse 1.2s cubic-bezier(.4,1.6,.4,1) infinite alternate, rainbowBorder 3s linear infinite;
+  z-index: 10;
+  background: linear-gradient(120deg, #fff8 0%, #fbb8 50%, #e33a 100%);
+  border: 2.5px solid #fbb;
+}
+@keyframes highlightPulse {
+  0% { box-shadow: 0 0 0 4px #fbb8, 0 4px 32px #e33b; }
+  100% { box-shadow: 0 0 0 8px #e33a, 0 4px 32px #fbb8; }
+}
+@keyframes rainbowBorder {
+  0% { border-color: #fbb; }
+  25% { border-color: #e33; }
+  50% { border-color: #fff; }
+  75% { border-color: #fbb; }
+  100% { border-color: #e33; }
+}
+
+/* Ajout d'un effet de lumière sur le QR code */
+.react-qr-code {
+  filter: drop-shadow(0 0 16px #e33a) drop-shadow(0 0 4px #fff8);
+  transition: filter 0.3s;
+  animation: qrGlow 2.5s ease-in-out infinite alternate;
+}
+.react-qr-code:hover {
+  filter: drop-shadow(0 0 32px #fbb8) drop-shadow(0 0 8px #fff8);
+}
+@keyframes qrGlow {
+  0% { filter: drop-shadow(0 0 16px #e33a) drop-shadow(0 0 4px #fff8); }
+  100% { filter: drop-shadow(0 0 48px #fbb8) drop-shadow(0 0 16px #fff8); }
+}
+
+/* Arrière-plan animé avec particules et dégradé dynamique */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(circle at 70% 30%, #fff3 0%, #e33a 40%, #1a1a1a 100%);
+  animation: bgMove 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes bgMove {
+  0% { background-position: 70% 30%; filter: blur(0px) brightness(1); }
+  100% { background-position: 30% 70%; filter: blur(2px) brightness(1.1); }
+}
+
+/* Particules animées */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    repeating-radial-gradient(circle at 10% 20%, #fff8 0 1.5px, transparent 2px 100%),
+    repeating-radial-gradient(circle at 80% 60%, #e33b 0 2px, transparent 2.5px 100%),
+    repeating-radial-gradient(circle at 50% 80%, #fbb8 0 1.2px, transparent 2px 100%);
+  background-size: 400px 400px, 600px 600px, 300px 300px;
+  animation: particlesMove 18s linear infinite;
+}
+@keyframes particlesMove {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 200px 400px, 600px 0, 0 300px; }
+}
+
+/* Ajout d'une transition sur tous les éléments pour plus de fluidité */
+* {
+  transition: all 0.25s cubic-bezier(.4,1.6,.4,1);
+}
+
+/* Barre d’actions fixe pour les boutons principaux */
+.action-bar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100;
+  display: flex;
+  gap: 0.7em;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, #181818ee 60%, #c003 100%);
+  padding: 0.5em 0.2em;
+  box-shadow: 0 2px 12px #0005;
+  border-bottom: 2px solid #c00;
+  margin-bottom: 0.7em;
+}
+body.light-theme .action-bar {
+  background: linear-gradient(90deg, #fff8 60%, #fbb8 100%);
+  border-bottom: 2px solid #fbb;
+}
+@media (max-width: 600px) {
+  .action-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    padding: 0.3em 0.1em;
+    gap: 0.5em;
+    box-sizing: border-box;
+    margin-bottom: 0.5em;
+  }
+  .action-bar button {
+    width: 44vw;
+    min-width: 120px;
+    max-width: 98vw;
+    font-size: 1em;
+    padding: 0.55em 0.2em;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+  }
+}
+@media (max-width: 400px) {
+  .action-bar {
+    flex-direction: column;
+    gap: 0.25em;
+    margin-bottom: 0.3em;
+  }
+  .action-bar button {
+    width: 96vw;
+    min-width: 0;
+    font-size: 0.98em;
+    padding: 0.38em 0.1em;
+    margin: 0;
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  html, body, #root {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  .container {
+    padding: 1.2rem 0.5rem;
+    max-width: 100vw;
+    min-width: 0;
+    overflow-x: auto;
+    box-sizing: border-box;
+  }
+  .section, .key-display {
+    max-width: 100vw;
+    overflow-x: auto;
+    box-sizing: border-box;
+  }
+  .key-box, .label-strong, button, input[type="text"], input[type="password"] {
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow-x: auto;
+    word-break: break-word;
+    white-space: normal;
+  }
+  .key-box {
+    font-size: 0.98em;
+    padding: 0.45rem 0.7rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .label-strong {
+    font-size: 1em;
+    padding: 0.18em 0.4em;
+    margin-bottom: 0.2em;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  button, input[type="text"], input[type="password"] {
+    font-size: 0.98em;
+    padding: 0.5em 0.7em;
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  h1 {
+    font-size: 1.1em;
+    padding: 0.2em 0;
+    word-break: break-word;
+    max-width: 100vw;
+  }
+  .key-display {
+    margin-top: 0.3rem;
+  }
+}
+@media (max-width: 400px) {
+  .container {
+    padding: 0.3rem 0.05rem;
+  }
+  .label-strong {
+    font-size: 0.92em;
+    padding: 0.12em 0.2em;
+  }
+  .key-box {
+    font-size: 0.88em;
+    padding: 0.2rem 0.2rem;
+  }
+  button {
+    font-size: 0.88em;
+    padding: 0.3em 0.3em;
+  }
 }

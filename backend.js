@@ -1,3 +1,4 @@
+/* eslint-env node */
 // Backend Express minimal pour CRYPTO1312
 const express = require('express');
 const cors = require('cors');
